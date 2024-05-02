@@ -6,6 +6,13 @@ import platform, subprocess, sys
 from PIL import Image
 import os
 
+def _format_size(size):
+    # Convert size to human-readable format
+    for unit in ['', 'KB', 'MB', 'GB', 'TB']:
+        if size < 1024:
+            return f"{size:.2f} {unit}"
+        size /= 1024
+
 def convert_images_to_pdf(image_folder, output_pdf):
         # Get a list of all image files in the folder
     image_files = [f for f in os.listdir(image_folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp'))]
@@ -14,6 +21,8 @@ def convert_images_to_pdf(image_folder, output_pdf):
         print("No image files found in the folder.")
         return 0
 
+    total_size = 0
+    
     # Sort the image files by file name
     image_files = sorted(image_files)
 
@@ -23,6 +32,7 @@ def convert_images_to_pdf(image_folder, output_pdf):
     # Loop through each image and add it to the PDF
     for image_file in image_files:
         image_path = os.path.join(image_folder, image_file)
+        total_size += os.path.getsize(image_path)
         try:
             img = Image.open(image_path)
             img_width, img_height = img.size
@@ -37,7 +47,7 @@ def convert_images_to_pdf(image_folder, output_pdf):
     
     c.save()
     print(f"PDF file '{output_pdf}' created successfully.")
-    return len(image_files)
+    return len(image_files), total_size
 
 def select_folder():
     default_download_folder = os.path.expanduser("~/Downloads")
@@ -45,9 +55,11 @@ def select_folder():
     if folder_path:
         folder_name = os.path.basename(folder_path)
         output_pdf = os.path.join(folder_path, f"{folder_name}.pdf")
-        num_of_files = convert_images_to_pdf(folder_path, output_pdf)
-        status_label.config(text=f"Selected folder: {folder_name}\n{num_of_files} PDF file(s) have been merged successfully into '{output_pdf}'.")
-     # Open the folder containing the PDF file
+        num_of_files, total_size = convert_images_to_pdf(folder_path, output_pdf)
+        # Convert total size to human-readable format
+        total_size_str = _format_size(total_size)
+        status_label.config(text=f"Selected folder: {folder_name}\n{num_of_files} PDF file(s) ({total_size_str}) have been merged successfully into '{output_pdf}'.")
+    # Open the folder containing the PDF file
     if platform.system() == "Windows":
         os.startfile(folder_path)
     else:
