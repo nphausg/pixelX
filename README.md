@@ -2,7 +2,6 @@
 
 <div align="center">
     <img src="https://img.shields.io/badge/python-v3.9-blue.svg">
-    <a href="https://github.com/nphau/android.embeddedserver/actions/workflows/app-build.yml"><img alt="Build Status" src="https://github.com/nphau/android.embeddedserver/actions/workflows/app-build.yml/badge.svg"/></a>
 </div>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)

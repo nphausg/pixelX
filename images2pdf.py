@@ -1,10 +1,14 @@
+import os
+import platform
+import subprocess
+import sys
 import tkinter as tk
 from tkinter import filedialog
+
+from PIL import Image
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-import platform, subprocess, sys
-from PIL import Image
-import os
+
 
 def _format_size(size):
     # Convert size to human-readable format
@@ -13,16 +17,17 @@ def _format_size(size):
             return f"{size:.2f} {unit}"
         size /= 1024
 
+
 def convert_images_to_pdf(image_folder, output_pdf):
-        # Get a list of all image files in the folder
-    image_files = [f for f in os.listdir(image_folder) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp'))]
+    # Get a list of all image files in the folder
+    image_files = [f for f in os.listdir(image_folder) if f.lower().endswith(
+        ('.jpg', '.jpeg', '.png', '.gif', '.bmp'))]
 
     if not image_files:
         print("No image files found in the folder.")
         return 0
 
     total_size = 0
-    
     # Sort the image files by file name
     image_files = sorted(image_files)
 
@@ -44,10 +49,11 @@ def convert_images_to_pdf(image_folder, output_pdf):
             c.showPage()
         except Exception as e:
             print(f"Failed to process {image_file}: {str(e)}")
-    
+
     c.save()
     print(f"PDF file '{output_pdf}' created successfully.")
     return len(image_files), total_size
+
 
 def select_folder():
     default_download_folder = os.path.expanduser("~/Downloads")
@@ -55,10 +61,12 @@ def select_folder():
     if folder_path:
         folder_name = os.path.basename(folder_path)
         output_pdf = os.path.join(folder_path, f"{folder_name}.pdf")
-        num_of_files, total_size = convert_images_to_pdf(folder_path, output_pdf)
+        num_of_files, total_size = convert_images_to_pdf(
+            folder_path, output_pdf)
         # Convert total size to human-readable format
         total_size_str = _format_size(total_size)
-        status_label.config(text=f"Selected folder: {folder_name}\n{num_of_files} PDF file(s) ({total_size_str}) have been merged successfully into '{output_pdf}'.")
+        status_label.config(text=f"Selected folder: {folder_name}\n{num_of_files} PDF file(s) ({
+                            total_size_str}) have been merged successfully into '{output_pdf}'.")
     # Open the folder containing the PDF file
     if platform.system() == "Windows":
         os.startfile(folder_path)
@@ -66,7 +74,7 @@ def select_folder():
         opener = "open" if sys.platform == "darwin" else "xdg-open"
         subprocess.call([opener, folder_path])
 
-            
+
 # Create GUI
 root = tk.Tk()
 root.geometry("800x200")
@@ -77,7 +85,8 @@ root.iconphoto(True, icon)
 
 root.title("Images to PDF Converter")
 
-select_folder_button = tk.Button(root, text="Select Folder", command=select_folder)
+select_folder_button = tk.Button(
+    root, text="Select Folder", command=select_folder)
 select_folder_button.pack(pady=20)
 
 status_label = tk.Label(root, text="")
