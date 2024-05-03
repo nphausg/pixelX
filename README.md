@@ -71,10 +71,14 @@ source .venv/bin/activate
 
 ## 🍲 Screenshots
 
-<h4 align="center">
+### Images to PDF
+
 
 <img src="docs/demo.png"> 
 
+### PixelX
+
+<img src="docs/pixelX.png"> 
 
 ## ✨ Contributing
 

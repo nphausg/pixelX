@@ -89,6 +89,7 @@ def select_folder():
 root = tk.Tk()
 # 800x400 is size of window, 400+200 is the location of the window
 root.geometry('800x400+400+200')
+root.resizable(False, False)
 root.title("Images to PDF Converter")
 select_folder_button = tk.Button(
     root, text="Select Folder", command=select_folder)
