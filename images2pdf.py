@@ -58,40 +58,41 @@ def convert_images_to_pdf(image_folder, output_pdf, progress_callback):
     print(f"PDF file '{output_pdf}' created successfully.")
     return total_size
 
+
 def select_folder():
     default_download_folder = os.path.expanduser("~/Downloads")
     folder_path = filedialog.askdirectory(initialdir=default_download_folder)
     folder_name = os.path.basename(folder_path)
     output_pdf = os.path.join(folder_path, f"{folder_name}.pdf")
     status_label.config(text="Converting images...")
+
     def update_progress(progress, total_images, total_size):
         progress_percent = (progress / total_images) * 100
-        status_label.config(text=f"Converting images... {progress}/{total_images} ({progress_percent:.2f}%)")
+        status_label.config(text=f"Converting images... {
+                            progress}/{total_images} ({progress_percent:.2f}%)")
         if progress_percent == 100:
             # Convert total size to human-readable format
             total_size_str = _format_size(total_size)
-            status_label.config(text=f"Selected folder: {folder_name}\n{total_images} PDF file(s) ({total_size_str}) have been merged successfully into\n'{output_pdf}'.")
+            status_label.config(text=f"Selected folder: {folder_name}\n{total_images} PDF file(s) ({
+                                total_size_str}) have been merged successfully into\n'{output_pdf}'.")
             # Open the folder containing the PDF file
             if platform.system() == "Windows":
                 os.startfile(folder_path)
             else:
                 opener = "open" if sys.platform == "darwin" else "xdg-open"
                 subprocess.call([opener, folder_path])
-    threading.Thread(target=convert_images_to_pdf, args=(folder_path, output_pdf, update_progress)).start()
+    threading.Thread(target=convert_images_to_pdf, args=(
+        folder_path, output_pdf, update_progress)).start()
+
+
 # Create GUI
 root = tk.Tk()
-root.geometry("800x200")
-# Load the image file from disk.
-icon = tk.PhotoImage(file="icon.png")
-# Set it as the window icon.
-root.iconphoto(True, icon)
-
+# 800x400 is size of window, 400+200 is the location of the window
+root.geometry('800x400+400+200')
 root.title("Images to PDF Converter")
-
-select_folder_button = tk.Button(root, text="Select Folder", command=select_folder)
+select_folder_button = tk.Button(
+    root, text="Select Folder", command=select_folder)
 select_folder_button.pack(pady=20)
-
 status_label = tk.Label(root, text="")
 status_label.pack()
-
 root.mainloop()

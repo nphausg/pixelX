@@ -37,12 +37,37 @@ source .venv/bin/activate
 1. Run the Python script image_to_pdf_converter.py.
 2. Click the "Select Folder" button to choose a folder containing images. Once a folder is selected, the application converts the images into a PDF file and displays the status message. *Optionally, users can view the total size of all files in the selected folder before conversion*.
 
-## 🚀 Dependencies
+## 🚀 How to distribute
+
+### Dependencies
 
 - Python 3.x
 - Tkinter
 - reportlab
 - Pillow
+
+### Distribution
+
+- **Step 1**: Install PyInstaller, If you haven't already installed PyInstaller, you can do so using pip: pip install pyinstaller
+
+- **Step 2**: Prepare Your Python Script. Make sure your Python script (image_to_pdf_converter.py) is ready for distribution. Ensure it includes all necessary dependencies and functionality.
+
+- **Step 3**: Run PyInstaller, Navigate to the directory containing your Python script in the command line and run PyInstaller with your script as an argument:
+
+    ```python
+    pyinstaller image_to_pdf_converter.py
+    ```
+
+- **Step 4**: Test the Executable. Navigate to the dist directory and run the generated executable to test it:
+    - On Windows: Run image_to_pdf_converter.exe
+    - On macOS: Run image_to_pdf_converter
+    - On Linux: Run ./image_to_pdf_converter
+
+    Make sure the executable behaves as expected and includes all required functionalities.
+
+- **Step 5**: Distribute Your Executable
+
+    You can distribute your executable by sharing the generated file (image_to_pdf_converter.exe on Windows, image_to_pdf_converter on macOS and Linux). Users can run it directly without needing Python or any additional dependencies installed.
 
 ## 🍲 Screenshots
 
